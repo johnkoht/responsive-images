@@ -1,6 +1,6 @@
-# ResponsiveImages
+# Responsive Images
 
-TODO: Write a gem description
+ResponsiveImages is a simple library that handles responsive images on both the server and client side for Rails projects. It provides a set of helper methods that automatically load the appropriate image for whatever device a visitor is using.
 
 ## Installation
 
@@ -15,10 +15,100 @@ And then execute:
 Or install it yourself as:
 
     $ gem install responsive_images
+    
+
+## Configuration
+
+The Responsive Image gem is easy to setup and use. Please note that it is currently requires Rails and [Carrierwave](https://github.com/jnicklas/carrierwave). To get started, you should setup or identify your carrierwave versions, here are some examples:
+
+    class MyUploader < CarrierWave::Uploader::Base
+      ...
+    
+      # Mobile version
+      version :mobile do
+        process :resize_to_fit => [300, 300]
+      end
+  
+      # Tablet version
+      version :tablet do
+        process :resize_to_fit => [600, 600]
+      end
+  
+      # Desktop version
+      version :desktop do
+        process :resize_to_fit => [900, 900]
+      end
+    
+      ...
+    end
+  
+You can add as many as you'd like. 
+
+#### Initializer
+In order to configure the gem, you'll need to add an initializer in app/initializers/responsive_images.rb
+
+    ResponsiveImages.configure do |config|
+      # Set the default version for image. If you leave it at :default then it will use
+      # the original size, i.e., image.url or you can use a specific version
+      config.default = :default  
+      # Add some custom sizes that you'll generate with Carrierwave. You can make as many
+      # as you want. But you'll need to configure mobvious for any custom ones.
+      config.sizes = {
+        mobile: :mobile,            # carrierwave version size
+        tablet: :tablet,            # another carrierwave version size
+        desktop: :desktop           # and one more version...
+      }
+    end
+
+Note that :mobile, :tablet and :desktop should be replaced with whatever carrierwave version you created. You can add more version but you'll need to configure mobvious to identify these screen sizes. ResponsiveImages does not currently support this but it is a feature that will eventually be added.
 
 ## Usage
 
-TODO: Write usage instructions here
+ResponsiveImages is incredibly easy to use. There are currently two primary helpers
+
+
+### Responsive Image Tag
+
+The `responsive_image_tag` is meant replace the `image_tag`. You can pass any arguments, just like you would with an `image_tag`. Here is a basic exmpale:
+
+    # basic usage
+    = responsive_image_tag @post.image
+    # => <img src="path/to/image.jpg", data-desktop-src="path/to/desktop_image.jpg" data-tablet-src="path/to/tablet_image.jpg" data-mobile-src="path/to/mobile_image.jpg" /> 
+
+The helper method will determine what size is most appropriate for the `src` attribute. Rather than load a default size and then swap them out, the ResponsiveImage gem actually detects the user device and uses the appropriate image for the `src` attribute.
+
+You can also pass custom sizes to the helper method. If you have a specific model or page that use's different image, then pass those Carrierwave versions through the :sizes parameter:
+  
+    # custom versions
+    = responsive_image_tag @post.image, :sizes => { :tablet => :post_tablet, :mobile => :post_mobile }
+    # => <img src="path/to/image.jpg", data-desktop-src="path/to/desktop_image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg" /> 
+  
+These custom versions will overwrite the default versions from our configuration. This is incredibly useful for pages or models that require a different set of sizes. For example, a page hero/banner might be much larger than most content images and requires custom sizes.
+
+
+### Responsive Background Image
+
+ResponsiveImages also includes a helper for background images. You can easily call this with:
+    
+    # basic usage
+    = responsive_background_image @post.image
+    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/tablet_image.jpg" data-mobile-src="path/to/mobile_image.jpg"
+
+This will automatically create the attributes for your `<div/>` or whatever tag you add a background image too.
+
+You can also pass custom version to the helper method with:
+  
+    # custom versions
+    = responsive_background_image @post.image, :sizes => { :'mobile' => :post_small, :tablet => :post_tablet }
+    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg"
+    
+### Mobvious
+
+ResponsiveImages uses [Mobvious](https://github.com/jistr/mobvious) for device detection. Check out [the gem](https://github.com/jistr/mobvious) for more details. You can use Mobvious to detect the user device by simply calling:
+  
+    return request.env['mobvious.device_type']
+    # => desktop (mobile or tablet)
+
 
 ## Contributing
 

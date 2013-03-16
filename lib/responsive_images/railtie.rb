@@ -3,7 +3,7 @@ require 'responsive_images/view_helpers'
 require "mobvious"
 
 module ResponsiveImages
-  class Railtie < Rails::Railtie
+  class Railtie < ::Rails::Railtie
     
     # Add our view helpers
     initializer "responsive_images.view_helpers" do

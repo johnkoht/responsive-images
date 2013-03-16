@@ -101,7 +101,29 @@ You can also pass custom version to the helper method with:
     # custom versions
     = responsive_background_image @post.image, :sizes => { :'mobile' => :post_small, :tablet => :post_tablet }
     # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg"
+
+
+### Client-side JavaScript
+
+The ResponsiveImages helpers will allow you to construct your responsive image tags and even select the most appropriate size to load initially but if the browser window sizes changes, we'll need some client-side javascript to adjust the image src. The responsive-images.js is included in this gem but needs to be added to your javascript bundle, in application.js add:
+
+    //= require responsive-images
     
+The responsive-images.js is based on jQuery, so you'll need jQuery loaded.
+
+Now we need to instantiate the plugin. This is quite simple:
+    
+    // setup our responsive images
+    $('img.responsive').responsive_images({
+      mobile_size: 480,
+      tablet_size: 768,
+      desktop_size: 980,
+    });
+    
+Unlike the helper methods, with the JS library, you define breakpoints that will tell the plugin to find the appropriate size and resize it to the appropriate data-attribute. 
+For example, if you're breakpoint is mobile_size then the plugin will look for a data-mobile-src attribute. 
+
+  
 ### Mobvious
 
 ResponsiveImages uses [Mobvious](https://github.com/jistr/mobvious) for device detection. Check out [the gem](https://github.com/jistr/mobvious) for more details. You can use Mobvious to detect the user device by simply calling:

@@ -2,6 +2,10 @@
 
 ResponsiveImages is a simple library that handles responsive images on both the server and client side for Rails projects. It provides a set of helper methods that automatically load the appropriate image for whatever device a visitor is using.
 
+The library depends on Carrierwave and lets you use the versions created in your uploader to serve device-appropriate images. 
+
+Unlike traditional responsive javascript libraries, ResponsiveImages has a server-side component that will detect the visitor's device and create the actual image tag src based on the most appropriate image size. The helper will also add a few data attributes that allow the javascript file to handle responsive images on the front-end.
+
 ## Installation
 
 Add this line to your application's Gemfile:

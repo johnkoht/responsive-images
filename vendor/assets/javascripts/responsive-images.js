@@ -2,8 +2,6 @@
   
   $.fn.responsive_images = function(options) {
     
-    console.log("options:: ", options)
-    
     // Default settings
     var defaults = {
       default_to_small : true,

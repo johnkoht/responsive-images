@@ -49,7 +49,7 @@ The Responsive Image gem is easy to setup and use. Please note that it is curren
 You can add as many as you'd like. 
 
 #### Initializer
-In order to configure the gem, you'll need to add an initializer in app/initializers/responsive_images.rb
+In order to configure the gem, you'll need to add an initializer in config/initializers/responsive_images.rb
 
     ResponsiveImages.configure do |config|
       # Set the default version for image. If you leave it at :default then it will use

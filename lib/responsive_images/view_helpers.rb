@@ -24,7 +24,7 @@ module ResponsiveImages
     def responsive_background_image image, options={}
       # Merge any options passed with the configured options
       sizes = ResponsiveImages.options.deep_merge(options)
-      data_hash = { style: "background-image: #{src_path(image, sizes)}" }.merge(alternative_sizes(image, sizes))      
+      data_hash = { style: "background-image: url(#{src_path(image, sizes)})" }.merge(alternative_sizes(image, sizes))      
     end
   
     

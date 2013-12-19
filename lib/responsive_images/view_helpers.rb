@@ -48,7 +48,7 @@ module ResponsiveImages
       data_sizes = {}
       sizes[:sizes].each do |size, value|
         if value.present?
-          data_sizes["data-#{size}-src"] = (value == :default ? image.url : image.url.send(value))
+          data_sizes["data-#{size}-src"] = (value == :default ? image.url : image.send(value))
         else
           false
         end

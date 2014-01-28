@@ -17,7 +17,7 @@ module ResponsiveImages
       # Get the image source
       image_src = src_path(image, sizes)      
       # Return the image tag with our responsive data attributes
-      return image_tag image_src, data_sizes
+      return image_tag image_src, data_sizes.merge(options)
     end
     
     

@@ -75,8 +75,7 @@
           // If the item is a div, let's set the background image
           if ( $(item).is('div') ) {
             $(item).css({
-              "background-image" : 'url("' + $(item).attr(data_attribute) + '")',
-              "background-size" : "auto",
+              "background-image" : 'url("' + $(item).attr(data_attribute) + '")'
             });
           }
           // If it's an image, let's just replace the source

@@ -50,9 +50,9 @@
       var size = null;
       var size_key = null;
       var sizes = {
-        mobile_size: defaults.mobile_size,
-        tablet_size: defaults.tablet_size,
-        desktop_size: defaults.desktop_size,
+        mobile_size: responsive_images.settings.mobile_size,
+        tablet_size: responsive_images.settings.tablet_size,
+        desktop_size: responsive_images.settings.desktop_size,
       };
       // Loop over our size array to figure out which size is the closest to our screen size
       $.each(sizes, function(key, value) {

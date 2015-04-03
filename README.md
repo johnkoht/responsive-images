@@ -76,18 +76,20 @@ ResponsiveImages is incredibly easy to use. There are currently two primary help
 The `responsive_image_tag` is meant replace the `image_tag`. You can pass any arguments, just like you would with an `image_tag`. Here is a basic exmpale:
 
     # basic usage
-    = responsive_image_tag @post.image.url
+    = responsive_image_tag @post.image.url, :class => 'responsive'
     # => <img src="path/to/image.jpg", data-desktop-src="path/to/desktop_image.jpg" data-tablet-src="path/to/tablet_image.jpg" data-mobile-src="path/to/mobile_image.jpg" /> 
 
 The helper method will determine what size is most appropriate for the `src` attribute. Rather than load a default size and then swap them out, the ResponsiveImage gem actually detects the user device and uses the appropriate image for the `src` attribute.
+
+The `responsive` class is needed for the javascript to work. Feel free to change the name or add more class names as you wish, while taking in mind to also update the javascript selector as shown [below](#user-content-client-side-javascript).
 
 __Note that as of version 0.1.0 you'll need to pass the appropriate column where carrierwave is mounted, i.e. url, attachment, file, etc. In previous verions, this defaulted to `.url`__
 
 You can also pass custom sizes to the helper method. If you have a specific model or page that use's different image, then pass those Carrierwave versions through the :sizes parameter:
   
     # custom versions
-    = responsive_image_tag @post.image, :sizes => { :tablet => :post_tablet, :mobile => :post_mobile }
-    # => <img src="path/to/image.jpg", data-desktop-src="path/to/desktop_image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg" /> 
+    = responsive_image_tag @post.image, :sizes => { :tablet => :post_tablet, :mobile => :post_mobile }, :class => 'responsive'
+    # => <img src="path/to/image.jpg", data-desktop-src="path/to/desktop_image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg" class="responsive" /> 
   
 These custom versions will overwrite the default versions from our configuration. This is incredibly useful for pages or models that require a different set of sizes. For example, a page hero/banner might be much larger than most content images and requires custom sizes.
 
@@ -97,16 +99,16 @@ These custom versions will overwrite the default versions from our configuration
 ResponsiveImages also includes a helper for background images. You can easily call this with:
     
     # basic usage
-    = responsive_background_image @post.image.url
-    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/tablet_image.jpg" data-mobile-src="path/to/mobile_image.jpg"
+    = responsive_background_image @post.image.url, :class => 'responsive'
+    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/tablet_image.jpg" data-mobile-src="path/to/mobile_image.jpg" class="responsive"
 
 This will automatically create the attributes for your `<div/>` or whatever tag you add a background image too.
 
 You can also pass custom version to the helper method with:
   
     # custom versions
-    = responsive_background_image @post.image.url, :sizes => { :'mobile' => :post_small, :tablet => :post_tablet }
-    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg"
+    = responsive_background_image @post.image.url, :sizes => { :'mobile' => :post_small, :tablet => :post_tablet }, :class => 'responsive'
+    # => style="url(path/to/image.jpg)" data-desktop-src="path/to/image.jpg" data-tablet-src="path/to/post_tablet_image.jpg" data-mobile-src="path/to/post_mobile_image.jpg" class="responsive"
 
 
 ### Client-side JavaScript
